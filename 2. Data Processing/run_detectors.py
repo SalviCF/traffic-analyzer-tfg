@@ -11,8 +11,9 @@ for camera in cam_df["name"]:
             "pm2",
             "start",
             "--name",
-            camera + "(collect)",
-            "image_collector.py",
+            camera + "(detect)",
+            "--no-autorestart",
+            "image_detector.py",
             "--",
             camera,
         ]
