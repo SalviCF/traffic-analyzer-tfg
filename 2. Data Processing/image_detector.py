@@ -56,15 +56,13 @@ def save_image(image: numpy.ndarray, path: Path) -> None:
 
     _, im_enc = cv2.imencode(path.suffix, image)
     stream = BytesIO(im_enc.tobytes())
-    try:
-        minio_client.put_object(
-            bucket_name=MINIO_BUCKET,
-            object_name=path.as_posix(),
-            data=stream,
-            length=len(im_enc),
-        )
-    except Exception as e:
-        stderr.write(str(e) + "\n")
+
+    minio_client.put_object(
+        bucket_name=MINIO_BUCKET,
+        object_name=path.as_posix(),
+        data=stream,
+        length=len(im_enc),
+    )
 
 
 def save_metadata(
@@ -87,10 +85,8 @@ def save_metadata(
         "n_pedestrians": n_pedestrians,
         "bboxes": boxes.tolist(),
     }
-    try:
-        collection.insert_one(metadata)
-    except Exception as e:
-        stderr.write(str(e) + "\n")
+    
+    collection.insert_one(metadata)
 
 
 for item in minio_client.list_objects(
@@ -101,9 +97,11 @@ for item in minio_client.list_objects(
 
     try:
         response = minio_client.get_object(MINIO_BUCKET, item.object_name)
-        pred, bboxes = yolo.inference(response.data)
+        pred, bboxes = yolo.inference(response.data, prob_thresh=0.5)
         save_image(pred, det_path)
         save_metadata(item, bboxes, cam_collection)
+    except Exception as e:
+        stderr.write(str(e) + "\n")
     finally:
         response.close()
         response.release_conn()

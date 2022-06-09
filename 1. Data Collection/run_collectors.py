@@ -6,7 +6,7 @@ import pandas as pd
 wd = Path(".").absolute()
 cam_df = pd.read_csv(wd.parents[0] / "cameras.csv")
 for camera in cam_df["name"]:
-    subprocess.Popen(
+    subprocess.run(
         [
             "pm2",
             "start",

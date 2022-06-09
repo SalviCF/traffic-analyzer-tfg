@@ -4,9 +4,9 @@ from pathlib import Path
 import pandas as pd
 
 wd = Path(".").absolute()
-cam_df = pd.read_csv(wd.parents[0] / "cameras.csv")
+cam_df = pd.read_csv(wd.parents[0] / "cam_subset.csv")
 for camera in cam_df["name"]:
-    subprocess.Popen(
+    subprocess.run(
         [
             "pm2",
             "start",
