@@ -5,7 +5,7 @@ import pandas as pd
 
 wd = Path(".").absolute()
 cam_df = pd.read_csv(wd.parents[0] / "cam_subset.csv")
-for camera in cam_df["name"]:
+for camera in cam_df[12:]["name"]:
     subprocess.run(
         [
             "pm2",
