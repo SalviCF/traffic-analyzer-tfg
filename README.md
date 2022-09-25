@@ -1,2 +1,2 @@
 # Traffic Analyzer
-Final Degree Project - SAlvador Carrillo Fuentes
+Final Degree Project - Salvador Carrillo Fuentes
