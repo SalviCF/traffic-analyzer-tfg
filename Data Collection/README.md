@@ -1,5 +1,5 @@
 ### Description
-Downloads traffic camera images and saves them into a *MinIO* server.
+Downloads traffic camera images and saves them into a MinIO server.
 
 ### Instalation
 Clone this repository:
