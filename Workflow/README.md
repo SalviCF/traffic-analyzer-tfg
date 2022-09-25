@@ -1,5 +1,5 @@
 ### Description
-Data cleaning, analysis, training, validation and forecasting.
+Pipeline of data collection, data processing. Also data forecasting.
 
 ### Instalation
 Clone this repository:
@@ -13,5 +13,5 @@ Setup your environmental variables by creating a `.env` file taking `.env.templa
 ### Usage
 Open a terminal inside your local repository an run:
 ```shell
-python model.py [CAMERA_NAME] 
+nohup python workflow.py [CAMERA_NAME] &
 ```

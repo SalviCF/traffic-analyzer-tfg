@@ -1,5 +1,6 @@
 import argparse
 import os.path
+import subprocess
 from datetime import datetime, timezone
 from io import BytesIO
 from pathlib import Path
@@ -7,6 +8,7 @@ from sys import stderr, stdout
 from time import sleep
 from typing import Any, Mapping, Union
 
+import schedule
 from urllib3 import PoolManager, Retry, exceptions, response
 
 import cv2
@@ -138,7 +140,15 @@ def save_metadata(
     collection.insert_one(metadata)
 
 
+def create_model(camera: str):
+    """Calls model.py to create a new forecasting model for `camera`."""
+    subprocess.run(
+        ["python", "model.py", camera])
+
 ########################################################################################################################
+
+
+schedule.every().day.at("02:00").do(create_model, CAMERA_NAME)  # create a new model every day at 2:00
 
 minio_client = Minio(
     MINIO_URL, access_key=MINIO_ACCESS_KEY, secret_key=MINIO_SECRET_KEY, secure=False
@@ -157,6 +167,7 @@ cam_collection = db[CAMERA_NAME]
 ########################################################################################################################
 
 while True:
+    schedule.run_pending()  # wait to create model every day at 2:00
     response = get_image(CAMERA_URL)  # get image
     if response:
         time = datetime.now(timezone.utc)

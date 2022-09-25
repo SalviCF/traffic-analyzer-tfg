@@ -57,18 +57,18 @@ fcst = TSForecaster(
     metrics=mae,
     cbs=ShowGraph(),
 )
-fcst.fit_one_cycle(2, 1e-3)
-filename = CAMERA_NAME + ".pkl"
-fcst.export(filename)
+fcst.fit_one_cycle(10, 1e-3)
+model_file = CAMERA_NAME + ".pkl"
+fcst.export(model_file)
 
 # Save model to MinIO
 minio_client = Minio(
     MINIO_URL, access_key=MINIO_ACCESS_KEY, secret_key=MINIO_SECRET_KEY, secure=False
 )
 
-path = MINIO_DIR_MODEL / filename
+path = MINIO_DIR_MODEL / model_file
 minio_client.fput_object(
-    bucket_name=MINIO_BUCKET, object_name=path.as_posix(), file_path=filename
+    bucket_name=MINIO_BUCKET, object_name=path.as_posix(), file_path=model_file
 )
 
-os.remove(filename)
+os.remove(model_file)
