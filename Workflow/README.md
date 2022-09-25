@@ -8,7 +8,11 @@ git clone https://github.com/SalviCF/traffic-analyzer-tfg.git
 ```
 
 ### Settings
-Setup your environmental variables by creating a `.env` file taking `.env.template` has example (using your own connection settings).
+* Setup your environmental variables by creating a `.env` file taking `.env.template` has example (using your own connection settings).
+* [Create your own environment from `environment.yml`.](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file)
+
+
+
 
 ### Usage
 Open a terminal inside your local repository an run:
